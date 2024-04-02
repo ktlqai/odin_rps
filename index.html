@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>Game: Rock - Paper - Scissors</title>
+    </head>
+    <body>
+        
+
+        <script>
+            function playRound(playerSelection, computerSelection) {
+                // your code here!
+                if (playerSelection == 'ROCK') {
+                    if (computerSelection == 'ROCK') {
+                        return 0;
+                    } else if (computerSelection == 'PAPER') {
+                        return 1;
+                    } else if (computerSelection == 'SCISSORS') {
+                        return -1;
+                    }
+                } else if (playerSelection == 'PAPER') {
+                    if (computerSelection == 'ROCK') {
+                        return -1;
+                    } else if (computerSelection == 'PAPER') {
+                        return 0;
+                    } else if (computerSelection == 'SCISSORS') {
+                        return 1;
+                    }
+                } else if (playerSelection == 'SCISSORS') {
+                    if (computerSelection == 'ROCK') {
+                        return 1;
+                    } else if (computerSelection == 'PAPER') {
+                        return -1;
+                    } else if (computerSelection == 'SCISSORS') {
+                        return 0;
+                    }
+                }
+
+                return undefined;
+            }
+
+            function getPlayerChoice() {
+                let playerChoice = prompt('What is your choice?');
+                return playerChoice.toUpperCase();
+            }
+
+            function getComputerChoice() {
+                const choices = ['ROCK', 'PAPER', 'SCISSORS'];
+                return choices[Math.floor(Math.random() * choices.length)];
+            }
+
+            let playerWins = 0;
+            let computerWins = 0;
+            for (let i = 0; i < 5; i++) {
+                const playerSelection = getPlayerChoice();
+                const computerSelection = getComputerChoice();
+                const result = playRound(playerSelection, computerSelection);
+                console.log(`Round ${(i + 1)}: player: ${playerSelection}, computer: ${computerSelection}, result: ${result}`);
+                
+                if (result == -1) {
+                    playerWins++;
+                } else if (result == 1) {
+                    computerWins++;
+                }
+            }
+
+            if (playerWins > computerWins) {
+                console.log('Player wins!');
+            } else if (computerWins > playerWins) {
+                console.log('Computer wins!');
+            } else {
+                console.log('Draws for both!');
+            }
+
+        </script>
+    </body>
+</html>
