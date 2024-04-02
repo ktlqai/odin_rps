@@ -1,11 +1,42 @@
 <html>
     <head>
         <title>Game: Rock - Paper - Scissors</title>
+
+        <style>
+            #game_board {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            #game_results {
+                width: 100%;
+                height: 400px;
+                overflow: scroll;
+                border: 1px solid blue;
+                border-radius: 20px;
+            }
+        </style>
     </head>
     <body>
-        
+        <h1>Game Board: Rock - Paper - Scissors</h1>
+        <div id="game_board">
+            <button id="rock">ROCK</button>
+            <button id="paper">PAPER</button>
+            <button id="scissors">SCISSORS</button>
+        </div>
+
+        <h1>Game Results:</h1>
+        <div id="game_results">
+
+        </div>
 
         <script>
+
             function playRound(playerSelection, computerSelection) {
                 // your code here!
                 if (playerSelection == 'ROCK') {
@@ -37,37 +68,68 @@
                 return undefined;
             }
 
-            function getPlayerChoice() {
+            var round = 0;
+            var playerWins = 0;
+            var computerWins = 0;
+
+            const matches = document.querySelectorAll("#rock, #paper, #scissors");
+            matches.forEach((matchedButton) => {
+                matchedButton.addEventListener("click", () => {
+                round++;
+
+                const playerSelection = matchedButton.innerHTML;
+                const computerSelection = getComputerChoice();
+                const result = playRound(playerSelection, computerSelection);
+                //console.log(`Round ${(i + 1)}: player: ${playerSelection}, computer: ${computerSelection}, result: ${result}`);
+
+                const container = document.querySelector("#game_results");
+
+                const content = document.createElement("div");
+                //content.classList.add("content");
+                content.textContent = `Round ${round}: player: ${playerSelection}, computer: ${computerSelection}, result: ${result}`;
+
+                container.appendChild(content);
+
+                if (result == -1) {
+                    playerWins++;
+
+                    if ((playerWins - computerWins) == 5) {
+                        round = 0;
+                        playerWins = 0;
+                        computerWins = 0;
+
+                        const content2 = document.createElement("div");
+                        //content.classList.add("content");
+                        content2.textContent = `Player wins 5 points!`;
+
+                        container.appendChild(content2);
+                    }
+                } else if (result == 1) {
+                    computerWins++;
+
+                    if ((computerWins - playerWins) == 5) {
+                        round = 0;
+                        playerWins = 0;
+                        computerWins = 0;
+
+                        const content2 = document.createElement("div");
+                        //content.classList.add("content");
+                        content2.textContent = `Computer wins 5 points!`;
+
+                        container.appendChild(content2);
+                    }
+                }
+            });
+            });
+
+            /*function getPlayerChoice() {
                 let playerChoice = prompt('What is your choice?');
                 return playerChoice.toUpperCase();
-            }
+            }*/
 
             function getComputerChoice() {
                 const choices = ['ROCK', 'PAPER', 'SCISSORS'];
                 return choices[Math.floor(Math.random() * choices.length)];
-            }
-
-            let playerWins = 0;
-            let computerWins = 0;
-            for (let i = 0; i < 5; i++) {
-                const playerSelection = getPlayerChoice();
-                const computerSelection = getComputerChoice();
-                const result = playRound(playerSelection, computerSelection);
-                console.log(`Round ${(i + 1)}: player: ${playerSelection}, computer: ${computerSelection}, result: ${result}`);
-                
-                if (result == -1) {
-                    playerWins++;
-                } else if (result == 1) {
-                    computerWins++;
-                }
-            }
-
-            if (playerWins > computerWins) {
-                console.log('Player wins!');
-            } else if (computerWins > playerWins) {
-                console.log('Computer wins!');
-            } else {
-                console.log('Draws for both!');
             }
 
         </script>
